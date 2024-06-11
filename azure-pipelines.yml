@@ -13,12 +13,13 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
-  displayName: 'Install Node.js'
+  displayName: 'Installer Node.js'
 
 - script: |
     npm install
+    chmod +x node_modules/.bin/vite
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'Installer les dépendances et construire le projet'
 
 - task: ArchiveFiles@2
   inputs:
@@ -27,9 +28,12 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Archiver les fichiers de build'
 
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     artifact: 'dist'
     publishLocation: 'pipeline'
+  displayName: 'Publier les artefacts du pipeline'
+
