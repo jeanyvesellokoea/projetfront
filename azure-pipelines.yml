@@ -10,6 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
@@ -20,10 +21,12 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+
+
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
-    includeRootFolder: true
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/'
+    includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
